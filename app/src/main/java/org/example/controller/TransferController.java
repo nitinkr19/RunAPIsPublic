@@ -20,6 +20,12 @@ public class TransferController {
     @PostMapping
     public ResponseEntity<String> transfer(TransferRequest request) {
 
+        System.out.println("================== In Controller ====================");
+
+        System.out.println(request.getFromAccountId());
+        System.out.println(request.getToAccountId());
+        System.out.println(request.getAmount());
+
         transferService.transfer(
                 request.getFromAccountId(),
                 request.getToAccountId(),

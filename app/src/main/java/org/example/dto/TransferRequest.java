@@ -7,6 +7,9 @@ public class TransferRequest {
     public long toAccountId;
     public BigDecimal amount;
 
+    public TransferRequest() {
+    }
+
     public long getFromAccountId() {
         return fromAccountId;
     }
