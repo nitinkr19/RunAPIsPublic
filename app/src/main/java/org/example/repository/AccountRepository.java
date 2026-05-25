@@ -1,9 +1,11 @@
 package org.example.repository;
 
 import org.example.model.Account;
+import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class AccountRepository {
 
     private final ConcurrentHashMap<Long, Account> accounts = new ConcurrentHashMap<>();

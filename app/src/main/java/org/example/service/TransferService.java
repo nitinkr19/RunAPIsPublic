@@ -3,12 +3,14 @@ package org.example.service;
 import org.example.model.Account;
 import org.example.model.Transaction;
 import org.example.repository.AccountRepository;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Service
 public class TransferService {
 
     private final AccountRepository repository;
