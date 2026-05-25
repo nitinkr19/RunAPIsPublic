@@ -1,13 +1,19 @@
 package org.example.service;
 
 import org.example.model.Account;
+import org.example.model.Transaction;
 import org.example.repository.AccountRepository;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TransferService {
 
     private final AccountRepository repository;
+
+    private final List<Transaction> transactions = new CopyOnWriteArrayList<>();
 
     public TransferService(AccountRepository repository) {
         this.repository = repository;
@@ -41,6 +47,19 @@ public class TransferService {
 
             first.withdraw(amount);
             second.deposit(amount);
+
+            transactions.add(
+                    new Transaction(
+                            first.getId(),
+                            second.getId(),
+                            amount,
+                            Instant.now()
+                    )
+            );
         }
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 }

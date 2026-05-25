@@ -1,10 +1,12 @@
 package org.example.service;
 
 import org.example.model.Account;
+import org.example.model.Transaction;
 import org.example.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +62,31 @@ class TransferServiceTest {
         BigDecimal total = a.getBalance().add(b.getBalance());
         assertEquals(new BigDecimal(2000), total);
 
+    }
+
+    @Test
+    void ShouldStoreTransactionHistory() {
+        AccountRepository repository = new AccountRepository();
+
+        Account a = new Account(1, new BigDecimal(100));
+        Account b = new Account(2, new BigDecimal(50));
+
+        repository.save(a);
+        repository.save(b);
+
+        TransferService service = new TransferService(repository);
+
+        service.transfer(1, 2, new BigDecimal(10));
+
+
+        List<Transaction> transactions = service.getTransactions();
+        assertEquals(1, transactions.size());
+
+        Transaction transaction = transactions.get(0);
+        assertEquals(1, transaction.getFromAccountId());
+        assertEquals(2, transaction.getToAccountId());
+        assertEquals(new BigDecimal(10), transaction.getAmount());
+        assertNotNull(transaction.getTimestamp());
     }
 
 }
