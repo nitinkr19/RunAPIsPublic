@@ -3,10 +3,8 @@ package org.example.controller;
 import org.example.dto.TransferRequest;
 import org.example.service.TransferService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/transfers")
@@ -23,12 +21,15 @@ public class TransferController {
             @RequestBody TransferRequest request
     ) {
 
-        transferService.transfer(
-                request.getFromAccountId(),
-                request.getToAccountId(),
-                request.getAmount()
-        );
-
+        try {
+            transferService.transfer(
+                    request.getFromAccountId(),
+                    request.getToAccountId(),
+                    request.getAmount()
+            );
+        } catch (IllegalArgumentException iex) {
+            return ResponseEntity.badRequest().body(iex.getMessage());
+        }
         return ResponseEntity.ok("Transfer successful");
     }
 }

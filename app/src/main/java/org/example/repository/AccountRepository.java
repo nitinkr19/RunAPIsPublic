@@ -17,4 +17,8 @@ public class AccountRepository {
     public Account findById(long id) {
         return accounts.get(id);
     }
+
+    public ConcurrentHashMap<Long, Account> getAllAccounts() {
+        return accounts;
+    }
 }
